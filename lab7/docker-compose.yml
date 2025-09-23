@@ -1,0 +1,54 @@
+services:
+  host1:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
+    hostname: host1
+    container_name: host1
+    tty: true
+    networks:
+      default:
+        ipv4_address: 10.10.0.2
+    privileged: true
+  host2:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.client
+    hostname: host2
+    container_name: host2
+    tty: true
+    networks:
+      default:
+        ipv4_address: 10.10.0.3
+    privileged: true
+
+  device:
+    build:
+      context: ./device
+      dockerfile: Dockerfile
+    hostname: device
+    container_name: device
+    tty: true
+    networks:
+      default:
+        ipv4_address: 10.10.0.4
+    privileged: true
+
+  monitor:
+    build:
+      context: ./monitor
+      dockerfile: Dockerfile
+    hostname: monitor
+    container_name: monitor
+    tty: true
+    networks:
+      default:
+        ipv4_address: 10.10.0.5
+    privileged: true
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/24
